@@ -1,6 +1,6 @@
 """
  Настройки для приложения.
 """
-LEVELS = 15
+LEVELS = 5
 RTPMIN = 75
 RTPMAX = 97

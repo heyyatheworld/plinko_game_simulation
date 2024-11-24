@@ -3,6 +3,7 @@
 """
 import settings
 from rng import Rng
+from ball import Ball
 
 class Game:
 
@@ -12,9 +13,13 @@ class Game:
         self.rtpmax = settings.RTPMAX
 
         self.bet_mode = "Manual" # Manual Auto
+        #self.bet_mode = "Auto"  # Manual Auto
         self.risk_level = "Low" # Low Normal High
 
-        self.rng = Rng()
+        self.games_in_stage = 100
+
+        #self.rng = Rng()
+        #self.ball = Ball(0,0)
 
 
     def start_game(self):
@@ -34,29 +39,35 @@ class Game:
 
         while True:
             user_input = input(
-                "Введите 'exit' для выхода или нажмите 'Enter' для запуска уровня: ")  # Ожидаем ввода от пользователя
+                "Введите 'exit' для выхода или нажмите 'Enter' для запуска уровня: \n")  # Ожидаем ввода от пользователя
 
-            if user_input == '':  # Проверяем, нажата ли клавиша 'Enter'
-                self.run_stage(self.levels)  # Запуск уровня
+            if user_input == '':
+                self.run_stage(self.levels)
 
-            elif user_input.lower() == 'exit':  # Проверяем ввод на 'exit'
+            elif user_input.lower() == 'exit':
                 print("Выход из игры...")
                 break  # Выход из цикла
 
         self.end_game()  # Завершение игры
 
     def run_stage(self, level):
-        """Логика для выполнения этапа игры.
-        while True:
+        """Логика для выполнения этапа игры."""
+        rng_instance = Rng()  # Создаем экземпляр генератора случайных чисел
 
-            if True:
-                pass
+        if self.bet_mode == "Manual":
+            #print(f"Последовательность случайных чисел: {rng_instance.generate_random_sequence()}")
+            start_pos = (0, 0)  # Начальная позиция на уровне 0, индекс 0
 
-            elif False:
-                pass
+            ball = Ball(start_pos, rng_instance)
 
-            else:
-                pass
-        """
-        print(f"Последовательность случайных чисел: {self.rng.generate_random_sequence()}")
-        print("Этап игры завершён!")
+            # Перемещение шарика несколько раз
+            for _ in range(self.levels):
+                ball.move()
+                print(f" Текущая позиция: {ball.get_position()}")
+            print("\nЭтап игры завершён!")
+
+        if self.bet_mode == "Auto":
+            for i in range(1,self.games_in_stage+1):
+                print(f"Испытание {i}: {rng_instance.generate_random_sequence()}")
+
+
