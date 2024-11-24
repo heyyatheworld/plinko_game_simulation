@@ -2,6 +2,7 @@
  Основной класс игры.
 """
 import settings
+from rng import Rng
 
 class Game:
 
@@ -9,22 +10,40 @@ class Game:
         self.levels = settings.LEVELS
         self.rtpmin = settings.RTPMIN
         self.rtpmax = settings.RTPMAX
-        print("Игра началась!")
-        print(f"Количество уровней: {self.levels}")
+
+        self.bet_mode = "Manual" # Manual Auto
+        self.risk_level = "Low" # Low Normal High
+
+        self.rng = Rng()
+
 
     def start_game(self):
-        print("Игра запущена!")
+        print("\nНастройки игры:")
+        print("-----------------------------")
+        print(f"Количество уровней: {self.levels}")
+        print(f"Режим игры        : {self.bet_mode}")
+        print(f"Уровень риска     : {self.risk_level}")
+        print("-----------------------------\n")
 
     def end_game(self):
         print("Игра окончена!")
 
     def play(self):
         """Основной игровой процесс."""
-        self.start_game()
+        self.start_game()  # Запуск игры
 
-        self.run_stage(self.levels)  # Запускаем уровень
+        while True:
+            user_input = input(
+                "Введите 'exit' для выхода или нажмите 'Enter' для запуска уровня: ")  # Ожидаем ввода от пользователя
 
-        self.end_game()
+            if user_input == '':  # Проверяем, нажата ли клавиша 'Enter'
+                self.run_stage(self.levels)  # Запуск уровня
+
+            elif user_input.lower() == 'exit':  # Проверяем ввод на 'exit'
+                print("Выход из игры...")
+                break  # Выход из цикла
+
+        self.end_game()  # Завершение игры
 
     def run_stage(self, level):
         """Логика для выполнения этапа игры.
@@ -39,4 +58,5 @@ class Game:
             else:
                 pass
         """
+        print(f"Последовательность случайных чисел: {self.rng.generate_random_sequence()}")
         print("Этап игры завершён!")
