@@ -4,6 +4,7 @@
 import settings
 from rng import Rng
 from ball import Ball
+from benefits import Benefits
 
 class Game:
 
@@ -18,6 +19,16 @@ class Game:
 
         self.games_in_stage = 100
 
+        self.benefits = Benefits()
+
+        last_row_values, probabilities = self.benefits.last_row_cells_and_probabilities()
+
+        print(f"{'Значения: ':<13} {str(last_row_values):6} {str(sum(last_row_values)):5}")
+        print(f"{'Вероятности:':<13} {str(probabilities):6} {str(sum(probabilities)):5}")
+
+        min_multipliers = self.benefits.calculate_min_multipliers()
+        print("Множители для RTP 75%:", min_multipliers)
+
         #self.rng = Rng()
         #self.ball = Ball(0,0)
 
@@ -28,6 +39,7 @@ class Game:
         print(f"Количество уровней: {self.levels}")
         print(f"Режим игры        : {self.bet_mode}")
         print(f"Уровень риска     : {self.risk_level}")
+        print(self.benefits)
         print("-----------------------------\n")
 
     def end_game(self):
@@ -64,6 +76,8 @@ class Game:
             for _ in range(self.levels):
                 ball.move()
                 print(f" Текущая позиция: {ball.get_position()}")
+
+
             print("\nЭтап игры завершён!")
 
         if self.bet_mode == "Auto":
