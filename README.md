@@ -1,1 +1,2 @@
-# plinko_txt_py
+# Plinko game simulator.
+

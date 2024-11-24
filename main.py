@@ -1,10 +1,5 @@
-import sys
+from game import Game
 
-def print_hi(name):
-    print(f'Hi, {name}')
-
-
-if __name__ == '__main__':
-    print_hi('PyCharm')
-    print(sys.prefix)
-    print(sys.base_prefix)
+if __name__ == "__main__":
+    game = Game()
+    game.play()
