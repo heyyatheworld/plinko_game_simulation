@@ -1,17 +1,18 @@
 """
  Основной класс игры.
 """
-import settings
+from settings import *
 from rng import Rng
 from ball import Ball
 from benefits import Benefits
+from account import Account
 
 class Game:
 
     def __init__(self):
-        self.levels = settings.LEVELS
-        self.rtpmin = settings.RTPMIN
-        self.rtpmax = settings.RTPMAX
+        self.levels = LEVELS
+        self.rtpmin = RTP
+        self.bet = BET
 
         self.bet_mode = "Manual" # Manual Auto
         #self.bet_mode = "Auto"  # Manual Auto
@@ -20,6 +21,7 @@ class Game:
         self.games_in_stage = 100
 
         self.benefits = Benefits()
+        self.account = Account()
 
         last_row_values, probabilities = self.benefits.last_row_cells_and_probabilities()
 
@@ -29,9 +31,6 @@ class Game:
         min_multipliers = self.benefits.calculate_min_multipliers()
         print("Множители для RTP 75%:", min_multipliers)
 
-        #self.rng = Rng()
-        #self.ball = Ball(0,0)
-
 
     def start_game(self):
         print("\nНастройки игры:")
@@ -39,8 +38,13 @@ class Game:
         print(f"Количество уровней: {self.levels}")
         print(f"Режим игры        : {self.bet_mode}")
         print(f"Уровень риска     : {self.risk_level}")
-        print(self.benefits)
-        print("-----------------------------\n")
+        print("-----------------------------")
+
+        self.mult = MLLVL[self.levels]
+        print(f"*: |", end='')
+        for i in range(self.levels+1):
+            print(f" {self.mult[i]} |", end='')
+        print()
 
     def end_game(self):
         print("Игра окончена!")
@@ -50,10 +54,13 @@ class Game:
         self.start_game()  # Запуск игры
 
         while True:
+            print(f"Баланс: {self.account}")
             user_input = input(
-                "Введите 'exit' для выхода или нажмите 'Enter' для запуска уровня: \n")  # Ожидаем ввода от пользователя
+                "Введите 'exit' для выхода или нажмите 'Enter' для продолжения: \n")  # Ожидаем ввода от пользователя
 
             if user_input == '':
+                print("\033[5F", end='')
+                print("\n" * 100)  # Печатает 100 пустых строк
                 self.run_stage(self.levels)
 
             elif user_input.lower() == 'exit':
@@ -68,16 +75,19 @@ class Game:
 
         if self.bet_mode == "Manual":
             #print(f"Последовательность случайных чисел: {rng_instance.generate_random_sequence()}")
+            bet = self.bet
+            self.account.withdraw(self.bet)
             start_pos = (0, 0)  # Начальная позиция на уровне 0, индекс 0
-
             ball = Ball(start_pos, rng_instance)
 
             # Перемещение шарика несколько раз
             for _ in range(self.levels):
                 ball.move()
                 print(f" Текущая позиция: {ball.get_position()}")
-
-
+            position = ball.get_position()[1]
+            print(f"  Мультик: {self.mult[position]}")
+            bet = bet*self.mult[position]
+            self.account.deposit(bet)
             print("\nЭтап игры завершён!")
 
         if self.bet_mode == "Auto":
