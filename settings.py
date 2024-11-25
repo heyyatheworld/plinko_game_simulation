@@ -5,8 +5,8 @@ LEVELS = 6 #5-14
 RTP = 95
 
 BET = 10
-
-INBAL = 1000 #Inilial Balance
+BALANCE = 1000 #Initial Balance
+GIS = 100 #Games in stage
 
 MLLVL =(
         (),

@@ -1,8 +1,8 @@
-from settings import *
+from settings import BALANCE
 
 class Account:
     def __init__(self):
-        self.balance = INBAL
+        self.balance = BALANCE
 
     def deposit(self, amount):
         """Добавляет средства на счет."""
@@ -14,7 +14,7 @@ class Account:
 
     def withdraw(self, amount):
         """Снимает средства со счета."""
-        if amount > 0 and amount <= self.balance:
+        if (amount > 0) and (amount <= self.balance):
             self.balance -= amount
             print(f"Со счета снято {amount}. Текущий баланс: {self.balance}")
         else:
