@@ -50,9 +50,6 @@ class Game:
         rng_instance = Rng()  # Создаем экземпляр генератора случайных чисел
 
         if self.bet_mode == "Manual":
-            for i in range(self.levels + 1):
-                print(f" {self.mult[i]} |", end='')
-            print()
 
             bet = self.bet
             self.account.withdraw(self.bet)
@@ -63,6 +60,10 @@ class Game:
             for _ in range(self.levels):
                 ball.move()
                 print(f" Текущая позиция: {ball.get_position()}")
+
+            for i in range(self.levels + 1):
+                print(f" {self.mult[i]} |", end='')
+            print()
 
             bet = bet*self.mult[ball.get_position()[1]]
             self.account.deposit(bet)
