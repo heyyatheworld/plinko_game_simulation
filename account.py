@@ -1,14 +1,14 @@
-from settings import BALANCE
+from settings import INITIAL_BALANCE
 
 class Account:
     def __init__(self):
-        self.balance = BALANCE
+        self.balance = INITIAL_BALANCE
 
     def deposit(self, amount):
         """Добавляет средства на счет."""
         if amount > 0:
             self.balance += amount
-            print(f"На счет добавлено {amount}. Текущий баланс: {self.balance}")
+            #print(f"На счет добавлено {amount}. Текущий баланс: {self.balance}")
         else:
             print("Сумма должна быть положительной.")
 
@@ -16,7 +16,7 @@ class Account:
         """Снимает средства со счета."""
         if (amount > 0) and (amount <= self.balance):
             self.balance -= amount
-            print(f"Со счета снято {amount}. Текущий баланс: {self.balance}")
+            #print(f"Со счета снято {amount}. Текущий баланс: {self.balance}")
         else:
             print("Недостаточно средств или сумма некорректна.")
 

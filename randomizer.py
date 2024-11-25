@@ -3,7 +3,7 @@
 """
 import random
 
-class Rng:
+class Randomizer:
     def __init__(self):
         pass
 
