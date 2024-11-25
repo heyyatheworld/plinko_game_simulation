@@ -1,14 +1,15 @@
 """
- Основной класс приложения.
+ Game.py
 """
-import random
-
 from ball import Ball
 from account import Account
+
 from settings import *
 
 class Game:
-
+    """
+     Основной класс приложения.
+    """
     def __init__(self):
         self.account = Account()
 
@@ -25,7 +26,7 @@ class Game:
             bet = STANDARD_BET
 
             #Для каждого уровня проходим определённое кол-во испытаний.
-            for i in range(GAMES_IN_STAGE):
+            for _ in range(GAMES_IN_STAGE):
 
                 #Подсчитываем все потраченные на уровне средства.
                 self.account.withdraw(bet)

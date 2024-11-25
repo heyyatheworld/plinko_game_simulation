@@ -1,10 +1,12 @@
 """
- Класс для управления игровым счётом.
+account.py
 """
 from settings import INITIAL_BALANCE
 
 class Account:
-
+    """
+     Класс для управления игровым счётом.
+    """
     def __init__(self):
         self.balance = INITIAL_BALANCE
 
@@ -17,7 +19,7 @@ class Account:
 
     def withdraw(self, amount):
         """Снимает средства со счета."""
-        if (amount > 0) and (amount <= self.balance):
+        if 0 < amount <= self.balance:
             self.balance -= amount
         else:
             print(amount, self.balance)
