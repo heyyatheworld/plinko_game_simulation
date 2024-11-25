@@ -5,7 +5,7 @@ LEVELS = 14 #5-14
 
 BET_MODE = "Auto"        # Manual/Auto
 INITIAL_BALANCE = 100000 #Initial Balance
-GAMES_IN_STAGE = 1000    #Games in stage
+GAMES_IN_STAGE = 10000    #Games in stage
 STANDARD_BET = 1
 
 X_LVL =(

@@ -1,16 +1,13 @@
-"""
- Основной класс игры.
-"""
-from settings import *
-from randomizer import Randomizer
 from ball import Ball
-from benefits import Benefits
 from account import Account
+from benefits import Benefits
+from randomizer import Randomizer
+
+from settings import *
 
 class Game:
 
     def __init__(self):
-        #self.rtp = RTP
         self.bet = STANDARD_BET
         #self.level = LEVELS
         self.games_in_stage = GAMES_IN_STAGE
@@ -23,15 +20,8 @@ class Game:
         self.benefits = Benefits()
         self.account = Account()
 
-    def play(self):
-        self.start()  # Запуск игры
-        self.run_stage()
-
-    def start(self):
-        print("\nСимулятор Plinko:")
-        print("-----------------------------")
-
     def run_stage(self):
+        print("\nСимулятор Plinko:")
         rng_instance = Randomizer()
         for lvl in range(5, LEVELS + 1):
 
@@ -55,7 +45,11 @@ class Game:
 
             self.rtp = self.total_win / self.total_bet * 100
             print(f"Уровень: {lvl:2d}  ", end='')
-            print(' '*4*(LEVELS-lvl), end='')  # Выравнивание по центру
-            for j in range(lvl + 1): print(f"| {X_LVL[lvl][j]:2.2f} |", end='')
-            print(' ' * 4 * (LEVELS - lvl), end='')  # Выравнивание по центру
-            print(f"   RTP: {self.rtp:3.2f}%")
+            print(' '*4*(LEVELS-lvl), end='')
+            for j in range(lvl + 1):
+                if X_LVL[lvl][j] < 10:
+                    print(f"  {X_LVL[lvl][j]:3.2f}  ", end='')
+                else:
+                    print(f"  {X_LVL[lvl][j]:3.1f}  ", end='')
+            print(' ' * 4 * (LEVELS - lvl), end='')
+            print(f" RTP: {self.rtp:3.2f}%")
