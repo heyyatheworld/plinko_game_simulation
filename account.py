@@ -18,6 +18,7 @@ class Account:
             self.balance -= amount
             #print(f"Со счета снято {amount}. Текущий баланс: {self.balance}")
         else:
+            print(amount, self.balance)
             print("Недостаточно средств или сумма некорректна.")
 
     def get_balance(self):

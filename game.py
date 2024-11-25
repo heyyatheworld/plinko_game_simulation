@@ -12,73 +12,50 @@ class Game:
     def __init__(self):
         #self.rtp = RTP
         self.bet = STANDARD_BET
-        self.level = LEVEL
+        #self.level = LEVELS
         self.games_in_stage = GAMES_IN_STAGE
-        self.mult = MLT_LVL[self.level]
+        self.mult = () #X_LVL[self.level]
         self.bet_mode = BET_MODE
         self.rtp = 0
         self.total_bet = 0
         self.total_win = 0
         self.game_number = 0
-
         self.benefits = Benefits()
         self.account = Account()
 
-    def start_game(self):
+    def play(self):
+        self.start()  # Запуск игры
+        self.run_stage()
+
+    def start(self):
         print("\nСимулятор Plinko:")
         print("-----------------------------")
-        print(f"Количество уровней: {self.level}")
-        print(f"Режим игры        : {self.bet_mode}")
-        print("-----------------------------")
-
-    def play(self):
-        """Основной игровой процесс."""
-        self.start_game()  # Запуск игры
-
-        while True:
-            user_input = input(
-                "'Enter' или 'exit' ...")
-
-            if user_input == '':
-                self.run_stage()
-
-            elif user_input.lower() == 'exit':
-                break
-        print("Игра окончена!")
 
     def run_stage(self):
-        """Логика для выполнения этапа игры."""
-        rng_instance = Randomizer()  # Создаем экземпляр генератора случайных чисел
-        print()
-        if BET_MODE == "Manual": self.games_in_stage = 1
-        if BET_MODE == "Auto": self.games_in_stage = 1000
+        rng_instance = Randomizer()
+        for lvl in range(5, LEVELS + 1):
 
-        for i in range(self.games_in_stage):
-            if BET_MODE == "Manual": print(f"# {self.game_number:5}")
-            self.game_number += 1
-            bet = self.bet
-            self.total_bet += bet
-            self.account.withdraw(self.bet)
+            self.rtp = 0
+            self.total_win = 0
+            self.total_bet = 0
 
-            start_pos = (0, 0)
-            ball = Ball(start_pos, rng_instance)
+            for i in range(self.games_in_stage):
+                    bet = self.bet
+                    self.total_bet += bet
+                    self.account.withdraw(self.bet)
 
-            for _ in range(self.level):
-                ball.move()
-                if BET_MODE == "Manual": print(f" Текущая позиция: {ball.get_position()}")
+                    start_pos = (0, 0)
+                    ball = Ball(start_pos, rng_instance)
+                    for _ in range(lvl):
+                        ball.move()
 
-            if BET_MODE == "Manual":
-                print(f"Множители текущего уровня:")
-                for i in range(self.level + 1):
-                    print(f"|  {self.mult[i]}  |", end='')
-                print()
-
-            win = bet*self.mult[ball.get_position()[1]]
-            self.total_win += win
-            self.account.deposit(win)
+                    win = bet * X_LVL[lvl][ball.get_position()[1]]
+                    self.account.deposit(win)
+                    self.total_win += win
 
             self.rtp = self.total_win / self.total_bet * 100
-
-        print(f"Сыграно игр  : {self.game_number}")
-        print(f"Баланс игрока: {self.account.get_balance()}")
-        print(f"Текущий RTP  : {self.rtp:.2f}%")
+            print(f"Уровень: {lvl:2d}  ", end='')
+            print(' '*4*(LEVELS-lvl), end='')  # Выравнивание по центру
+            for j in range(lvl + 1): print(f"| {X_LVL[lvl][j]:2.2f} |", end='')
+            print(' ' * 4 * (LEVELS - lvl), end='')  # Выравнивание по центру
+            print(f"   RTP: {self.rtp:3.2f}%")

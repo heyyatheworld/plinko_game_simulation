@@ -3,9 +3,6 @@
 """
 from settings import BET_MODE
 
-
-#from settings import *
-
 class Ball:
     def __init__(self, start_position, rng):
         """
