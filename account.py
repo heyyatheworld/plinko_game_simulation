@@ -1,6 +1,10 @@
+"""
+ Класс для управления игровым счётом.
+"""
 from settings import INITIAL_BALANCE
 
 class Account:
+
     def __init__(self):
         self.balance = INITIAL_BALANCE
 
@@ -8,7 +12,6 @@ class Account:
         """Добавляет средства на счет."""
         if amount > 0:
             self.balance += amount
-            #print(f"На счет добавлено {amount}. Текущий баланс: {self.balance}")
         else:
             print("Сумма должна быть положительной.")
 
@@ -16,7 +19,6 @@ class Account:
         """Снимает средства со счета."""
         if (amount > 0) and (amount <= self.balance):
             self.balance -= amount
-            #print(f"Со счета снято {amount}. Текущий баланс: {self.balance}")
         else:
             print(amount, self.balance)
             print("Недостаточно средств или сумма некорректна.")
@@ -24,7 +26,3 @@ class Account:
     def get_balance(self):
         """Возвращает текущий баланс."""
         return self.balance
-
-    def __str__(self):
-        """Возвращает строковое представление счета."""
-        return f"Текущий баланс: {self.balance}"

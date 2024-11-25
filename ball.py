@@ -1,41 +1,33 @@
 """
-Класс для описания шарика.
+ Класс для управления игровым элементом.
 """
-from settings import BET_MODE
+import random
+
+def generate_random_number(self):
+    """Генерирует случайное число в диапазоне от -100 до 100, исключая 0."""
+    while True:
+        random_number = random.randint(-100, 100)
+        if random_number != 0:
+            return random_number
 
 class Ball:
-    def __init__(self, start_position, rng):
-        """
-        Инициализирует новый экземпляр класса Ball.
 
-        Параметры:
-            start_position (tuple): Начальная позиция шарика (уровень, индекс).
-            rng (Randomizer): Экземпляр генератора случайных чисел.
-        """
+    def __init__(self, start_position):
         self.position = start_position  # Позиция шарика (уровень, индекс)
-        self.rng = rng  # Экземпляр генератора случайных чисел
-        if BET_MODE == "Manual":
-            print(f"{'Старт: ':<15} {self.position[0]:3}, индекс {self.position[1]:3}")
 
     def move(self):
-        """Перемещает шарик вниз по треугольнику Паскаля."""
+        """Перемещает шарик вниз на один уровень."""
         level, index = self.position
-        random_value = self.rng.generate_random_number()
+        random_value = generate_random_number(self)
 
         if random_value < 0:
             # Двигаемся влево
             new_index = max(index, 0)  # Убедимся, что индекс не выходит за пределы
-            if BET_MODE == "Manual":
-                print(f"{'<<< на уровень':<15} {level + 1:3}, индекс {new_index:3} ", end='')
             self.position = (level + 1, new_index)
-            #self.display_current_level(level)
         elif random_value > 0:
             # Двигаемся вправо
             new_index = index + 1
-            if BET_MODE == "Manual":
-                print(f"{'>>> на уровень':<15} {level + 1:3}, индекс {new_index:3} ", end='')
             self.position = (level + 1, new_index)
-            #self.display_current_level(level)
 
     def get_position(self):
         """Возвращает текущую позицию шарика."""
