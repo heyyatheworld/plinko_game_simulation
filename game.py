@@ -34,9 +34,8 @@ class Game:
         self.start_game()  # Запуск игры
 
         while True:
-            print(f"Баланс: {self.account}")
             user_input = input(
-                "'Enter' или 'exit' ...\n")
+                "'Enter' или 'exit' ...")
 
             if user_input == '':
                 self.run_stage()
@@ -48,7 +47,7 @@ class Game:
     def run_stage(self):
         """Логика для выполнения этапа игры."""
         rng_instance = Rng()  # Создаем экземпляр генератора случайных чисел
-
+        print()
         if self.bet_mode == "Manual":
 
             bet = self.bet
@@ -62,7 +61,7 @@ class Game:
                 print(f" Текущая позиция: {ball.get_position()}")
 
             for i in range(self.levels + 1):
-                print(f" {self.mult[i]} |", end='')
+                print(f"|  {self.mult[i]}  |", end='')
             print()
 
             bet = bet*self.mult[ball.get_position()[1]]
